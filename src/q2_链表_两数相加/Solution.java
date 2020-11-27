@@ -24,21 +24,29 @@ public class Solution {
 
     public static void main(String[] args) {
         ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
+        ListNode l2 = new ListNode(5, new ListNode(6));
+        ListNode l3 = addTwoNumbers(l1, l2);
+        System.out.println(l3);
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    private static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // 因为指针无法往回移，head用于记录最开始的地方
         ListNode head = new ListNode();
         ListNode indexNode = head;
         int flag = 0;
 
+        // 只要l1或l2还有位数或者进位不为0，就继续循环
         while (l1 != null || l2 != null || flag != 0) {
+            // l1或l2都可能为空，先判断
             int val1 = l1 == null ? 0 : l1.val;
             int val2 = l2 == null ? 0 : l2.val;
+            // 计算和、余数、进位
             int sum = val1 + val2 + flag;
             int indexVal = sum % 10;
             flag = sum / 10;
             indexNode.next = new ListNode(indexVal);
             indexNode = indexNode.next;
+            // 指针往后移，继续循环
             l1 = l1 == null ? null : l1.next;
             l2 = l2 == null ? null : l2.next;
         }
@@ -54,5 +62,16 @@ public class Solution {
         ListNode(int val) { this.val = val; }
 
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            ListNode head = this;
+            while (head != null) {
+                sb.append(head.val);
+                head = head.next;
+            }
+            return sb.toString();
+        }
     }
 }
